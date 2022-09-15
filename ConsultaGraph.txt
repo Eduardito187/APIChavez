@@ -1,0 +1,105 @@
+{
+  cuenta(ID:1){
+    ID
+    usuario
+    contra
+    nombre
+    foto
+    Rango {
+      ID
+      Nombre
+    }
+  }
+}
+{
+  validacion_login(usuario:"Abel",contra:"123"){
+    ID
+  }
+}
+mutation{
+  editCuenta(ID:1,usuario:"ABEL",contra:"123",nombre:"Abel Graz",foto:"f",RangoID:1){
+      Respuesta
+  }
+}
+mutation {
+    addCuenta(ID:1,usuario:"ABEL",contra:"123",nombre:"Abel Graz",foto:"f",RangoID:1){
+        ID
+        usuario
+        contra
+        nombre
+        foto
+        Rango {
+            ID
+            Nombre
+        }
+    },
+    addCuenta(ID:0,nombre:"Fernanda",usuario:"fer",contra:"123",foto:"dsds",RangoID:1) {
+        ID
+        usuario
+        contra
+        nombre
+        foto
+        Rango {
+            ID
+            Nombre
+        }
+    },
+    editCuenta(ID:1,usuario:"AGraz"){
+        ID
+        usuario
+        contra
+        nombre
+        foto
+        Rango {
+            ID
+            Nombre
+        }
+    }
+}
+
+mutation{
+  editExtintor(ID:1,Fecha:"2020-11-15",Peso:"2KG",Tipo:"A",Cantidad:3,Observacion:"Ninguna",Recargo:"2022-02-15",Sucursal:1,Proveedor:1){
+    Respuesta
+  }
+}
+mutation{
+  editPrioridad(ID:1,Nombre:"Alta",Descripcion:"De suma importancia"){
+		Respuesta    
+  }
+}
+mutation{
+  addSeguimiento(ID:0,Codigo:"SWAT",FechaCreacion:"2021-11-15",FechaInicio:null,FechaFin:null,Solicitante:"Ing Rolando",Descripcion:"NC",Autorizacion:"Dr Jordy",Sucursal:1,Responsable:1,Prioridad:1,Carpeta:"./",Conclusion:"NC"){
+		Respuesta    
+  }
+}
+mutation{
+  editSeguimiento(ID:1,Codigo:"SWATT",FechaCreacion:"2021-11-15",FechaInicio:null,FechaFin:null,Solicitante:"Ing Rolando",Descripcion:"NC",Autorizacion:"Dr Jordy",Sucursal:1,Responsable:1,Prioridad:1,Carpeta:"./",Conclusion:"NC"){
+		Respuesta    
+  }
+}
+
+
+  seguimiento(ID:1){
+    ID
+    Codigo
+    Autorizacion
+    Solicitante
+    Conclusion
+    InfoSucursal{
+      Nombre
+      Telefono
+      Direccion
+    }
+    InfoResponsable{
+      nombre
+      usuario
+      contra
+      Rango{
+        ID
+        Nombre
+			}
+    }
+    InfoPrioridad{
+      Nombre
+    }
+  }

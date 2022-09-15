@@ -1,0 +1,338 @@
+CREATE DATABASE FCH;
+USE FCH;
+
+CREATE TABLE Rango(
+ID INT PRIMARY KEY NOT NULL,
+Nombre VARCHAR(50) NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Cuenta (
+ID int NOT NULL PRIMARY KEY,
+usuario VARCHAR(50) NOT NULL,
+contra TEXT NOT NULL,
+nombre VARCHAR(150) NOT NULL,
+foto TEXT NULL,
+RangoID INT NOT NULL,
+FOREIGN KEY (RangoID) REFERENCES Rango(ID)
+)ENGINE=INNODB;
+
+INSERT INTO rango VALUES(1,'Administrador');
+INSERT INTO cuenta VALUES(1,'Abel','123456','Abel Graz','',1);
+ALTER TABLE cuenta AUTO_INCREMENT = 1;
+SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE   CONSTRAINT_SCHEMA='fch'   AND TABLE_NAME='cuenta'   AND REFERENCED_TABLE_NAME IS NOT NULL;
+SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE   TABLE_SCHEMA='fch'   AND TABLE_NAME='cuenta'   AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+CREATE TABLE Sucursal(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(100) NOT NULL,
+        CodigoSucursal VARCHAR(100) NOT NULL,
+        Telefono VARCHAR(20) NOT NULL,
+        Direccion TEXT NOT NULL,
+        TelfInterno VARCHAR(20) NULL,
+        Correo VARCHAR(100) NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Proveedor(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(100) NOT NULL,
+        Telefono VARCHAR(20) NOT NULL,
+        Direccion TEXT NOT NULL,
+        Correo VARCHAR(100) NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Extintores(
+        ID INT PRIMARY KEY NOT NULL,
+        Fecha DATE NOT NULL,
+        Peso VARCHAR(20) NOT NULL,
+        Tipo VARCHAR(30) NOT NULL,
+        Cantidad INT NOT NULL,
+        Observacion TEXT NOT NULL,
+        Recargo DATE NOT NULL,
+        Sucursal INT NOT NULL,
+        Proveedor INT NOT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Proveedor) REFERENCES Proveedor(ID)
+)ENGINE=INNODB;
+
+
+CREATE TABLE Prioridad(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(20) NOT NULL,
+        Descripcion TEXT NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Seguimiento(
+        ID INT PRIMARY KEY NOT NULL,
+        Codigo VARCHAR(50) NOT NULL,
+        FechaCreacion DATE NOT NULL,
+        FechaInicio DATE NULL,
+        FechaFin DATE NULL,
+        Solicitante TEXT NOT NULL,
+        Descripcion TEXT NOT NULL,
+        Autorizacion TEXT NOT NULL,
+        Sucursal INT NOT NULL,
+        Responsable INT NOT NULL,
+        Prioridad INT NOT NULL,
+        Carpeta TEXT NOT NULL,
+        Conclusion TEXT NOT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Responsable) REFERENCES Cuenta(ID),
+        FOREIGN KEY (Prioridad) REFERENCES Prioridad(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Empresa_Guardias(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(100) NOT NULL,
+        Telefono VARCHAR(20) NOT NULL,
+        Direccion TEXT NOT NULL,
+        Correo VARCHAR(100) NULL,
+        Supervisores TEXT NOT NULL,
+)ENGINE=INNODB;
+
+CREATE TABLE Guardias(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(100) NOT NULL,
+        Telefono VARCHAR(20) NOT NULL,
+        Precio INT NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Empresa_Guardias_Sucursal(
+        ID INT PRIMARY KEY NOT NULL,
+        Empresa INT NOT NULL,
+        Sucursal INT NOT NULL,
+        Ingreso VARCHAR(20) NOT NULL,
+        Salida VARCHAR(20) NOT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Empresa) REFERENCES Empresa_Guardias(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Guardias_Sucursal(
+        ID INT PRIMARY KEY NOT NULL,
+        Guardia INT NOT NULL,
+        GS INT NOT NULL,
+        FOREIGN KEY (Guardia) REFERENCES Guardias(ID),
+        FOREIGN KEY (GS) REFERENCES Empresa_Guardias_Sucursal(ID)
+)ENGINE=INNODB;
+//aqui--
+CREATE TABLE Control_LLAVEZ(
+        ID INT PRIMARY KEY NOT NULL,
+        FechaInicio DATE NULL,
+        FechaDevolucion DATE NULL,
+        Sucursal INT NOT NULL,
+        Entrega TEXT NOT NULL,
+        Observacion TEXT NOT NULL,
+        Responsable INT NOT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Responsable) REFERENCES Cuenta(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Control_Diario(
+        ID INT PRIMARY KEY NOT NULL,
+        Sucursal INT NOT NULL,
+        Empresa INT NOT NULL,
+        Guardia INT NOT NULL,
+        Calculo INT NOT NULL,
+        Observacion TEXT NOT NULL,
+        Fecha DATE NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Empresa) REFERENCES Empresa_Guardias(ID),
+        FOREIGN KEY (Guardia) REFERENCES Guardias(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Tareas(
+        ID INT PRIMARY KEY NOT NULL,
+        Codigo VARCHAR(30) NOT NULL,
+        Sucursal INT NOT NULL,
+        Detalle TEXT NOT NULL,
+        Solicitante INT NOT NULL,
+        Responsable INT NULL,
+        Estado VARCHAR(30) NOT NULL,
+        Prioridad INT NOT NULL,
+        Pospuesta TEXT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Solicitante) REFERENCES Cuenta(ID),
+        FOREIGN KEY (Responsable) REFERENCES Cuenta(ID),
+        FOREIGN KEY (Prioridad) REFERENCES Prioridad(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Lotes(
+        ID INT PRIMARY KEY NOT NULL,
+        Nombre VARCHAR(50) NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Producto(
+        ID INT PRIMARY KEY NOT NULL,
+        Factura VARCHAR(50) NOT NULL,
+        Nombre VARCHAR(100) NOT NULL,
+        Modelo VARCHAR(50) NOT NULL,
+        Proveedor INT NOT NULL,
+        Costo DECIMAL(10,2) NOT NULL,
+        Cantidad INT NOT NULL,
+        FOREIGN KEY (Proveedor) REFERENCES Proveedor(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Producto_Lote(
+        ID INT PRIMARY KEY NOT NULL,
+        Lote INT NOT NULL,
+        Producto INT NOT NULL,
+        FechaSalida DATE NULL,
+        Responsable INT NULL,
+        Sucursal INT NULL,
+        Cantidad INT NOT NULL,
+        FOREIGN KEY (Lote) REFERENCES Lotes(ID),
+        FOREIGN KEY (Producto) REFERENCES Producto(ID),
+        FOREIGN KEY (Responsable) REFERENCES Cuenta(ID),
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Recepcion(
+        ID INT PRIMARY KEY NOT NULL,
+        Fecha DATE NULL,
+        Responsable INT NULL,
+        Entregado TEXT NULL,
+        Descripcion TEXT NULL,
+        FOREIGN KEY (Responsable) REFERENCES Cuenta(ID)
+)ENGINE=INNODB;
+CREATE TABLE Permisos(
+        ID INT PRIMARY KEY NOT NULL,
+        RangoID INT NOT NULL,
+        P1 BOOLEAN,
+        P2 BOOLEAN,
+        P3 BOOLEAN,
+        P4 BOOLEAN,
+        P5 BOOLEAN,
+        P6 BOOLEAN,
+        P7 BOOLEAN,
+        P8 BOOLEAN,
+        P9 BOOLEAN,
+        P10 BOOLEAN,
+        P11 BOOLEAN,
+        P12 BOOLEAN,
+        P13 BOOLEAN,
+        P14 BOOLEAN,
+        P15 BOOLEAN,
+        P16 BOOLEAN,
+        P17 BOOLEAN,
+        P18 BOOLEAN,
+        P19 BOOLEAN,
+        P20 BOOLEAN,
+        P21 BOOLEAN,
+        P22 BOOLEAN,
+        P23 BOOLEAN,
+        P24 BOOLEAN,
+        P25 BOOLEAN,
+        P26 BOOLEAN,
+        P27 BOOLEAN,
+        P28 BOOLEAN,
+        P29 BOOLEAN,
+        P30 BOOLEAN,
+        P31 BOOLEAN,
+        P32 BOOLEAN,
+        P33 BOOLEAN,
+        P34 BOOLEAN,
+        P35 BOOLEAN,
+        P36 BOOLEAN,
+        P37 BOOLEAN,
+        P38 BOOLEAN,
+        P39 BOOLEAN,
+        P40 BOOLEAN,
+        P41 BOOLEAN,
+        P42 BOOLEAN,
+        P43 BOOLEAN,
+        P44 BOOLEAN,
+        P45 BOOLEAN,
+        P46 BOOLEAN,
+        P47 BOOLEAN,
+        FOREIGN KEY (RangoID) REFERENCES Rango(ID)
+)ENGINE=INNODB;
+//RELACION MODELS
+
+SOLO EDITAR DETALLE Y CONCLUSION DEL SEG.
+RESTRICCION SOLO ADMIN TODO EL SISTEMA
+
+ALTER TABLE seguimiento
+    ADD COLUMN Creador INT NULL,
+    ADD CONSTRAINT `fk_relacion_creador` FOREIGN KEY (Creador)
+        REFERENCES cuenta(ID);
+
+        ALTER TABLE control_diario
+    ADD COLUMN GS INT NULL,
+    ADD CONSTRAINT `fk_relacion_gs` FOREIGN KEY (GS)
+        REFERENCES empresa_guardias_sucursal(ID);
+
+CREATE TABLE Mensajes(
+        ID INT PRIMARY KEY NOT NULL,
+        De INT NOT NULL,
+        Para INT NOT NULL,
+        Texto TEXT NOT NULL,
+        Fecha DATETIME NOT NULL,
+        Leido BOOLEAN,
+        F_Leido DATETIME NULL,
+        FOREIGN KEY (De) REFERENCES Cuenta(ID),
+        FOREIGN KEY (Para) REFERENCES Cuenta(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE VacacionesDias(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Dias INT NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Trabajadores(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Nombre VARCHAR(50) NOT NULL,
+        Apellido VARCHAR(50) NOT NULL,
+        CI VARCHAR(10) NOT NULL,
+        SeguridadSocial VARCHAR(100) NOT NULL,
+        Puesto VARCHAR(30) NOT NULL,
+        FechaContratacion Date NOT NULL,
+        Supervisor INT NULL,
+        FOREIGN KEY (Supervisor) REFERENCES Trabajadores(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Vacacion_Persona(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Vacacion INT NOT NULL,
+        Trabajador INT NOT NULL,
+        Anho INT NOT NULL,
+        FOREIGN KEY (Vacacion) REFERENCES VacacionesDias(ID),
+        FOREIGN KEY (Trabajador) REFERENCES Trabajadores(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Control(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Trabajador INT NOT NULL,
+        Fecha DATE NOT NULL,
+        Tipo VARCHAR(30) NOT NULL,
+        Motivo TEXT NULL,
+        FOREIGN KEY (Trabajador) REFERENCES Trabajadores(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Tabla_Control(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Trabajador INT NOT NULL,
+        Anho INT NOT NULL,
+        Libre INT NOT NULL,
+        BajaMedica INT NOT NULL,
+        Permisos INT NOT NULL,
+        Faltas INT NOT NULL,
+        FOREIGN KEY (Trabajador) REFERENCES Trabajadores(ID)
+)ENGINE=INNODB;
+
+CREATE TABLE Salida_Discos(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        FechaEntrega DATE NULL,
+        Nombre varchar(100) NULL,
+        Detalle TEXT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE Control_Discos(
+        ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        Fecha DATE NOT NULL,
+        Sucursal INT NOT NULL,
+        CantidadDiscos INT NOT NULL,
+        ReqFiscal TEXT NULL,
+        FechaFinalizacion DATE NULL,
+        Salida INT NOT NULL,
+        FOREIGN KEY (Sucursal) REFERENCES Sucursal(ID),
+        FOREIGN KEY (Salida) REFERENCES Salida_Discos(ID)
+)ENGINE=INNODB;
