@@ -3,9 +3,8 @@ use App\Models\Tareas;
 use GraphQL\Type\Definition\Type;
 $TareasMutations=[
     'addTareas'=>[
-        'type'=>$boolType,
+        'type'=>$ContadorType,
         'args'=>[
-            'Codigo'=>Type::nonNull(Type::string()),
             'Sucursal'=>Type::nonNull(Type::int()),
             'Area'=>Type::nonNull(Type::int()),
             'Detalle'=>Type::nonNull(Type::string()),
@@ -13,10 +12,17 @@ $TareasMutations=[
             'Prioridad'=>Type::nonNull(Type::int())
         ],
         'resolve'=>function($root, $args){
-            $total=Tareas::distinct()->count('ID');
+            $DATE_ = date("Y-m-d");
+            
+            $objc=new mysql;
+            $sql="SELECT GetCodeTarea(".date('Y').") AS Tarea";
+            //CLASE PARA CONVERTIR CONSULTA MYSQL A FORMATO JSON
+            $objson=new json;
+            $aux= $objson->convertir($objc->consultar($sql));
+            $COD_TAREA = $aux[0]["Tarea"];
             $Tareas=new Tareas([
-                'ID'=>$total+1,
-                'Codigo'=>$args["Codigo"],
+                'ID'=>NULL,
+                'Codigo'=>$COD_TAREA,
                 'Sucursal'=> $args["Sucursal"] == 0 ? NULL : $args["Sucursal"] ,
                 'Detalle'=>$args["Detalle"],
                 'Solicitante'=>$args["Solicitante"],
@@ -24,7 +30,7 @@ $TareasMutations=[
                 'Estado'=>"Pendiente",
                 'Prioridad'=>$args["Prioridad"],
                 'Pospuesta'=>NULL,
-                'FechaCreacion'=>date("Y-m-d"),
+                'FechaCreacion'=>$DATE_,
                 'FechaInicio'=>NULL,
                 'Conclusion'=>NULL,
                 'Eliminado'=>0,
@@ -32,7 +38,14 @@ $TareasMutations=[
                 'area'=> $args["Area"] == 0 ? NULL : $args["Area"]
             ]);
             $x=$Tareas->save();
-            return array("Respuesta"=>true);
+            $Tarea=Tareas::where('Codigo',$COD_TAREA)->first();
+            if ($Tarea == null) {
+                return array("Cantidad"=>null);
+            }
+            if(!mkdir('./graphql/tareas/'.$COD_TAREA, 0777, true)) {
+                return array("Cantidad"=>null);
+            }
+            return array("Cantidad"=>$Tarea->ID);
         }
     ],
     'editTareas' => [
