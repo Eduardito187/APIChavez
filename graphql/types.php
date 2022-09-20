@@ -1019,8 +1019,7 @@ $ControlDiarioType=new ObjectType([
                     $ControlDiario_e = ControlDiario::where('ID', $id)->with(['empresa_guardia'])->first();
                     $sucursal = $ControlDiario_s->sucursal;
                     $empresa_guardia = $ControlDiario_e->empresa_guardia;
-                    $EmpresaGuardiaSucursal=EmpresaGuardiaSucursal::where('Sucursal',$sucursal->ID)->
-                    where('Empresa',$empresa_guardia->ID)->first();
+                    $EmpresaGuardiaSucursal=EmpresaGuardiaSucursal::where('Sucursal',$sucursal->ID)->where('Empresa',$empresa_guardia->ID)->first();
                     return $EmpresaGuardiaSucursal;
                 }
             ],
