@@ -97,6 +97,9 @@ $VacacionPersonaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $VacacionPersona = VacacionPersona::where('ID', $idPer)->with(['trabajador'])->first();
+                    if($VacacionPersona->trabajador == null){
+                        return null;
+                    }
                     return $VacacionPersona->trabajador->toArray();
                 }
             ],
