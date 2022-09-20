@@ -89,6 +89,9 @@ $VacacionPersonaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $VacacionPersona = VacacionPersona::where('ID', $idPer)->with(['vacaciones_dias'])->first();
+                    if ($VacacionPersona->vacaciones_dias==null){
+                        return null;
+                    }
                     return $VacacionPersona->vacaciones_dias->toArray();
                 }
             ],
@@ -253,6 +256,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['rango'])->first();
+                    if ($cuenta->rango==null){
+                        return null;
+                    }
                     return $cuenta->rango->toArray();
                 }
             ],
@@ -261,6 +267,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['seguimiento'])->first();
+                    if ($cuenta->seguimiento==null){
+                        return null;
+                    }
                     return $cuenta->seguimiento->toArray();
                 }
             ],
@@ -269,6 +278,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['seguimiento_creado'])->first();
+                    if ($cuenta->seguimiento_creado==null){
+                        return null;
+                    }
                     return $cuenta->seguimiento_creado->toArray();
                 }
             ],
@@ -277,6 +289,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['control_llaves'])->first();
+                    if ($cuenta->control_llaves==null){
+                        return null;
+                    }
                     return $cuenta->control_llaves->toArray();
                 }
             ],
@@ -285,6 +300,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['tareas_solicitante'])->first();
+                    if ($cuenta->tareas_solicitante==null){
+                        return null;
+                    }
                     return $cuenta->tareas_solicitante->toArray();
                 }
             ],
@@ -293,6 +311,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['tareas_responsable'])->first();
+                    if ($cuenta->tareas_responsable==null){
+                        return null;
+                    }
                     return $cuenta->tareas_responsable->toArray();
                 }
             ],
@@ -301,6 +322,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['producto_lote'])->first();
+                    if ($cuenta->producto_lote==null){
+                        return null;
+                    }
                     return $cuenta->producto_lote->toArray();
                 }
             ],
@@ -309,6 +333,9 @@ $cuentaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPer = $root['ID'];
                     $cuenta = Cuenta::where('ID', $idPer)->with(['recepcion'])->first();
+                    if ($cuenta->recepcion==null){
+                        return null;
+                    }
                     return $cuenta->recepcion->toArray();
                 }
             ],
@@ -329,6 +356,9 @@ $mensajesType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $mensajes = Mensajes::where('ID', $id)->with(['De_msg'])->first();
+                    if ($mensajes->De_msg==null){
+                        return null;
+                    }
                     return $mensajes->De_msg->toArray();
                 }
             ],
@@ -337,6 +367,9 @@ $mensajesType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $mensajes = Mensajes::where('ID', $id)->with(['Para_msg'])->first();
+                    if ($mensajes->Para_msg==null){
+                        return null;
+                    }
                     return $mensajes->Para_msg->toArray();
                 }
             ],
@@ -359,6 +392,9 @@ $rangoType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idRango = $root['ID'];
                     $rango = Rango::where('ID', $idRango)->with(['cuenta'])->first();
+                    if ($rango->cuenta==null){
+                        return null;
+                    }
                     return $rango->cuenta->toArray();
                 }
             ],
@@ -472,6 +508,9 @@ $proveedorType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Proveedor = Proveedor::where('ID', $idPri)->with(['extintor'])->first();
+                    if ($Proveedor->extintor==null){
+                        return null;
+                    }
                     return $Proveedor->extintor->toArray();
                 }
             ],
@@ -480,6 +519,9 @@ $proveedorType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Proveedor = Proveedor::where('ID', $idPri)->with(['producto'])->first();
+                    if ($Proveedor->producto==null){
+                        return null;
+                    }
                     return $Proveedor->producto->toArray();
                 }
             ]
@@ -504,6 +546,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['extintor'])->first();
+                    if ($Sucursal->extintor==null){
+                        return null;
+                    }
                     return $Sucursal->extintor->toArray();
                 }
             ],
@@ -512,6 +557,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['seguimiento'])->first();
+                    if ($Sucursal->seguimiento==null){
+                        return null;
+                    }
                     return $Sucursal->seguimiento->toArray();
                 }
             ],
@@ -520,6 +568,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['guardias'])->first();
+                    if ($Sucursal->guardias==null){
+                        return null;
+                    }
                     return $Sucursal->guardias->toArray();
                 }
             ],
@@ -528,6 +579,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['control_llaves'])->first();
+                    if ($Sucursal->control_llaves==null){
+                        return null;
+                    }
                     return $Sucursal->control_llaves->toArray();
                 }
             ],
@@ -536,6 +590,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['control_diario'])->first();
+                    if ($Sucursal->control_diario==null){
+                        return null;
+                    }
                     return $Sucursal->control_diario->toArray();
                 }
             ],
@@ -544,6 +601,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['tareas'])->first();
+                    if ($Sucursal->tareas==null){
+                        return null;
+                    }
                     return $Sucursal->tareas->toArray();
                 }
             ],
@@ -552,6 +612,9 @@ $sucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Sucursal = Sucursal::where('ID', $idPri)->with(['producto_lote'])->first();
+                    if ($Sucursal->producto_lote==null){
+                        return null;
+                    }
                     return $Sucursal->producto_lote->toArray();
                 }
             ]
@@ -574,6 +637,9 @@ $extintorDatoType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idExti = $root['ID'];
                     $ExtintorDato = ExtintorDato::where('ID', $idExti)->with(['extintor'])->first();
+                    if ($ExtintorDato->extintor==null){
+                        return null;
+                    }
                     return $ExtintorDato->extintor->toArray();
                 }
             ]
@@ -594,6 +660,9 @@ $extintorType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idExti = $root['ID'];
                     $Extintor = Extintor::where('ID', $idExti)->with(['sucursal'])->first();
+                    if ($Extintor->sucursal==null){
+                        return null;
+                    }
                     return $Extintor->sucursal->toArray();
                 }
             ],
@@ -602,6 +671,9 @@ $extintorType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idpro = $root['ID'];
                     $Extintor = Extintor::where('ID', $idpro)->with(['proveedor'])->first();
+                    if ($Extintor->proveedor==null){
+                        return null;
+                    }
                     return $Extintor->proveedor->toArray();
                 }
             ],
@@ -610,6 +682,9 @@ $extintorType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $Extintor = Extintor::where('ID', $id)->with(['extintores'])->first();
+                    if ($Extintor->extintores==null){
+                        return null;
+                    }
                     return $Extintor->extintores->toArray();
                 }
             ],
@@ -630,6 +705,9 @@ $prioridadType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Prioridad = Prioridad::where('ID', $idPri)->with(['seguimiento'])->first();
+                    if ($Prioridad->seguimiento==null){
+                        return null;
+                    }
                     return $Prioridad->seguimiento->toArray();
                 }
             ],
@@ -638,6 +716,9 @@ $prioridadType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $idPri = $root['ID'];
                     $Prioridad = Prioridad::where('ID', $idPri)->with(['tareas'])->first();
+                    if ($Prioridad->tareas==null){
+                        return null;
+                    }
                     return $Prioridad->tareas->toArray();
                 }
             ]
@@ -664,6 +745,9 @@ $seguimientoType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $Seguimiento = Seguimiento::where('ID', $id)->with(['sucursal'])->first();
+                    if ($Seguimiento->sucursal==null){
+                        return null;
+                    }
                     return $Seguimiento->sucursal->toArray();
                 }
             ],
@@ -683,6 +767,9 @@ $seguimientoType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $Seguimiento = Seguimiento::where('ID', $id)->with(['prioridad'])->first();
+                    if ($Seguimiento->prioridad==null) {
+                        return null;
+                    }
                     return $Seguimiento->prioridad->toArray();
                 }
             ],
@@ -692,6 +779,9 @@ $seguimientoType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $Seguimiento = Seguimiento::where('ID', $id)->with(['creador'])->first();
+                    if ($Seguimiento->creador==null) {
+                        return null;
+                    }
                     return $Seguimiento->creador->toArray();
                 }
             ],
@@ -718,6 +808,9 @@ $empresaGuardiaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardia::where('ID', $id)->with(['empresa_sucursal'])->first();
+                    if ($a->empresa_sucursal==null) {
+                        return null;
+                    }
                     return $a->empresa_sucursal->toArray();
                 }
             ],
@@ -726,6 +819,9 @@ $empresaGuardiaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardia::where('ID', $id)->with(['control_diario'])->first();
+                    if ($a->control_diario==null) {
+                        return null;
+                    }
                     return $a->control_diario->toArray();
                 }
             ]
@@ -746,6 +842,9 @@ $guardiaType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = Guardia::where('ID', $id)->with(['control_diario'])->first();
+                    if ($a->control_diario==null) {
+                        return null;
+                    }
                     return $a->control_diario->toArray();
                 }
             ],
@@ -774,6 +873,9 @@ $empresaguardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardiaSucursal::where('ID', $id)->with(['empresa'])->first();
+                    if ($a->empresa==null) {
+                        return null;
+                    }
                     return $a->empresa->toArray();
                 }
             ],
@@ -782,6 +884,9 @@ $empresaguardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardiaSucursal::where('ID', $id)->with(['sucursal'])->first();
+                    if ($a->sucursal==null) {
+                        return null;
+                    }
                     return $a->sucursal->toArray();
                 }
             ],
@@ -792,6 +897,9 @@ $empresaguardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardiaSucursal::where('ID', $id)->with(['guardia_sucursal'])->first();
+                    if ($a->guardia_sucursal==null) {
+                        return null;
+                    }
                     return $a->guardia_sucursal->toArray();
                 }
             ],
@@ -800,6 +908,9 @@ $empresaguardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $a = EmpresaGuardiaSucursal::where('ID', $id)->with(['control_diario'])->first();
+                    if ($a->control_diario==null) {
+                        return null;
+                    }
                     return $a->control_diario->toArray();
                 }
             ]
@@ -817,6 +928,9 @@ $guardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $GuardiaSucursal = GuardiaSucursal::where('ID', $id)->with(['guardia'])->first();
+                    if ($GuardiaSucursal->guardia==null) {
+                        return null;
+                    }
                     return $GuardiaSucursal->guardia->toArray();
                 }
             ],
@@ -825,6 +939,9 @@ $guardiasucursalType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $GuardiaSucursal = GuardiaSucursal::where('ID', $id)->with(['empresa_guardia_sucursal'])->first();
+                    if ($GuardiaSucursal->empresa_guardia_sucursal==null) {
+                        return null;
+                    }
                     return $GuardiaSucursal->empresa_guardia_sucursal->toArray();
                 }
             ]
@@ -844,6 +961,9 @@ $ControlLLAVESType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlLLAVES = ControlLLAVES::where('ID', $id)->with(['sucursal'])->first();
+                    if ($ControlLLAVES->sucursal==null) {
+                        return null;
+                    }
                     return $ControlLLAVES->sucursal->toArray();
                 }
             ],
@@ -854,6 +974,9 @@ $ControlLLAVESType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlLLAVES = ControlLLAVES::where('ID', $id)->with(['responsable'])->first();
+                    if ($ControlLLAVES->responsable==null) {
+                        return null;
+                    }
                     return $ControlLLAVES->responsable->toArray();
                 }
             ]
@@ -871,6 +994,9 @@ $ControlDiarioType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlDiario = ControlDiario::where('ID', $id)->with(['sucursal'])->first();
+                    if ($ControlDiario->sucursal==null) {
+                        return null;
+                    }
                     return $ControlDiario->sucursal->toArray();
                 }
             ],
@@ -879,6 +1005,9 @@ $ControlDiarioType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlDiario = ControlDiario::where('ID', $id)->with(['empresa_guardia'])->first();
+                    if ($ControlDiario->empresa_guardia==null) {
+                        return null;
+                    }
                     return $ControlDiario->empresa_guardia->toArray();
                 }
             ],
@@ -900,6 +1029,9 @@ $ControlDiarioType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlDiario = ControlDiario::where('ID', $id)->with(['obtener_gs'])->first();
+                    if ($ControlDiario->obtener_gs==null) {
+                        return null;
+                    }
                     return $ControlDiario->obtener_gs->toArray();
                 }
             ],
@@ -908,6 +1040,9 @@ $ControlDiarioType=new ObjectType([
                 "resolve" => function ($root, $args) {
                     $id = $root['ID'];
                     $ControlDiario = ControlDiario::where('ID', $id)->with(['guardia'])->first();
+                    if ($ControlDiario->guardia==null) {
+                        return null;
+                    }
                     return $ControlDiario->guardia->toArray();
                 }
             ],
